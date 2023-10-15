@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Table, tableMapperValues, type TableSource } from '@skeletonlabs/skeleton';
+	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -12,13 +12,11 @@
 			material: item.material,
 			weight: item.weight,
 			lastDried: new Date(item.lastDried).toLocaleDateString('en-gb', {
-				weekday: 'short',
 				day: '2-digit',
 				month: '2-digit',
 				year: '2-digit'
 			}),
 			openingDate: new Date(item.openingDate).toLocaleDateString('en-gb', {
-				weekday: 'short',
 				day: '2-digit',
 				month: '2-digit',
 				year: '2-digit'
@@ -30,85 +28,147 @@
 	});
 
 	let tableHead = [
-		'ID',
-		'Color',
-		'Diameter',
-		'Material',
-		'Weight',
-		'Last dried',
-		'Opening date',
-		'Producer',
-		'Empty weight',
-		'Spool size'
+		{
+			label: 'ID',
+			shown: true,
+			inputName: 'slider-id',
+			stockProperty: '_id'
+		},
+		{
+			label: 'Color',
+			shown: true,
+			inputName: 'slider-color',
+			stockProperty: 'color'
+		},
+		{
+			label: 'Diameter',
+			shown: true,
+			inputName: 'slider-diameter',
+			stockProperty: 'diameter'
+		},
+		{
+			label: 'Material',
+			shown: true,
+			inputName: 'slider-material',
+			stockProperty: 'material'
+		},
+		{
+			label: 'Weight',
+			shown: true,
+			inputName: 'slider-weight',
+			stockProperty: 'weight'
+		},
+		{
+			label: 'Last dried',
+			shown: true,
+			inputName: 'slider-last-dried',
+			stockProperty: 'lastDried'
+		},
+		{
+			label: 'Opening date',
+			shown: true,
+			inputName: 'slider-opening-date',
+			stockProperty: 'openingDate'
+		},
+		{
+			label: 'Producer',
+			shown: true,
+			inputName: 'slider-producer',
+			stockProperty: 'producer'
+		},
+		{
+			label: 'Empty weight',
+			shown: true,
+			inputName: 'slider-empty-weight',
+			stockProperty: 'emptyWeight'
+		},
+		{
+			label: 'Spool size',
+			shown: true,
+			inputName: 'slider-spool-size',
+			stockProperty: 'spoolSize'
+		}
 	];
 
-	function removeTableHeaderItem(item: string) {
-		let index = tableHead.indexOf(item);
+	let sortBy = {
+		col: '_id',
+		ascending: true
+	};
 
-		if (index >= 0) {
-			tableHead.splice(index, 1);
-			tableHead = tableHead;
+	$: sort = (column: string) => {
+		if (sortBy.col === column) {
+			sortBy.ascending = !sortBy.ascending;
+		} else {
+			sortBy.col = column;
+			sortBy.ascending = true;
 		}
-	}
 
-	function sortByColor() {}
+		let sortModifier = sortBy.ascending ? 1 : -1;
 
-	function sortByMaterial() {}
+		let sortFunc = (a: any, b: any) =>
+			a[column] < b[column] ? -1 * sortModifier : a[column] > b[column] ? 1 * sortModifier : 0;
 
-	function sortByLastDried() {}
-
-	function sortByDiameter() {}
-
-	function sortByWeight() {}
+		stock = stock.sort(sortFunc);
+	};
 </script>
+
+<div class="toggle-group my-3">
+	{#each tableHead as item}
+		<SlideToggle name={item.inputName} bind:checked={item.shown}>{item.label}</SlideToggle>
+	{/each}
+</div>
 
 <div class="table-container">
 	<!-- Native Table Element -->
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				{#each tableHead as headElement}
-					<th>{headElement}</th>
+				{#each tableHead as item}
+					<th
+						class:hidden={!item.shown}
+						class:sort-by={sortBy.col === item.stockProperty}
+						class:sort-asc={sortBy.ascending && sortBy.col === item.stockProperty}
+						class:sort-desc={!sortBy.ascending && sortBy.col === item.stockProperty}
+						on:click={() => sort(item.stockProperty)}
+					>
+						{item.label}
+					</th>
 				{/each}
 			</tr>
 		</thead>
 		<tbody>
 			{#each stock as item, i}
 				<tr>
-					{#if tableHead.includes('ID')}
-						<td>{item._id}</td>
-					{/if}
-					{#if tableHead.includes('Color')}
-						<td>{item.color}</td>
-					{/if}
-					{#if tableHead.includes('Diameter')}
-						<td>{item.diameter}</td>
-					{/if}
-					{#if tableHead.includes('Material')}
-						<td>{item.material}</td>
-					{/if}
-					{#if tableHead.includes('Weight')}
-						<td>{item.weight}</td>
-					{/if}
-					{#if tableHead.includes('Last dried')}
-						<td>{item.lastDried}</td>
-					{/if}
-					{#if tableHead.includes('Opening date')}
-						<td>{item.openingDate}</td>
-					{/if}
-					{#if tableHead.includes('Producer')}
-						<td>{item.producer}</td>
-					{/if}
-					{#if tableHead.includes('Empty weight')}
-						<td>{item.emptyWeight}</td>
-					{/if}
-					{#if tableHead.includes('Spool size')}
-						<td>{item.spoolSize}</td>
-					{/if}
+					<td class:hidden={!tableHead[0].shown}>{item._id}</td>
+					<td class:hidden={!tableHead[1].shown}>{item.color}</td>
+					<td class:hidden={!tableHead[2].shown}>{item.diameter}</td>
+					<td class:hidden={!tableHead[3].shown}>{item.material}</td>
+					<td class:hidden={!tableHead[4].shown}>{item.weight}</td>
+					<td class:hidden={!tableHead[5].shown}>{item.lastDried}</td>
+					<td class:hidden={!tableHead[6].shown}>{item.openingDate}</td>
+					<td class:hidden={!tableHead[7].shown}>{item.producer}</td>
+					<td class:hidden={!tableHead[8].shown}>{item.emptyWeight}</td>
+					<td class:hidden={!tableHead[9].shown}>{item.spoolSize}</td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
 </div>
 
-<button on:click={() => removeTableHeaderItem('Material')}>no material</button>
+<style>
+	th {
+		cursor: pointer;
+	}
+
+	th.sort-asc::after {
+		display: inline;
+	}
+
+	th.sort-asc.sort-by::after {
+		content: '⬆';
+	}
+
+	th.sort-desc.sort-by::after {
+		content: '⬇';
+	}
+</style>
