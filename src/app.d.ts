@@ -25,3 +25,10 @@ interface ProducerModelInterface {
 	emptyWeight: number;
 	spoolSize: number;
 }
+
+interface ApiResponseObject {
+	stockItems: StockModelInterface[];
+	total: number;
+	skip: number;
+	limit: number;
+}

@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import { SlideToggle, type PaginationSettings, Paginator } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 
 	export let data: PageData;
 
-	let stock = data.stockItems.map((item: StockModelInterface) => {
+	$: stock = data.stockItems.stockItems.map((item: StockModelInterface) => {
 		return {
 			_id: item._id,
 			color: item.color,
@@ -110,12 +112,41 @@
 
 		stock = stock.sort(sortFunc);
 	};
+
+	$: pageSize = data.stockItems.limit;
+	$: totalItems = data.stockItems.total;
+	$: totalPages = Math.ceil(totalItems / pageSize);
+
+	$: paginationSettings = {
+		page: 0,
+		limit: pageSize,
+		size: totalItems,
+		amounts: [5, 10, 15, 20]
+	} satisfies PaginationSettings;
+
+	function handlePagination(e: CustomEvent) {
+		goto(`/stock?limit=${pageSize}&skip=${pageSize * e.detail}`);
+	}
+
+	function handleAmountChange(e: CustomEvent) {
+		goto(`/stock?limit=${e.detail}`);
+	}
 </script>
 
-<div class="toggle-group my-3">
-	{#each tableHead as item}
-		<SlideToggle name={item.inputName} bind:checked={item.shown}>{item.label}</SlideToggle>
-	{/each}
+<div class="options">
+	<div class="toggle-group my3">
+		{#each tableHead as item}
+			<SlideToggle name={item.inputName} bind:checked={item.shown}>{item.label}</SlideToggle>
+		{/each}
+	</div>
+
+	<Paginator
+		bind:settings={paginationSettings}
+		showFirstLastButtons={false}
+		showPreviousNextButtons={true}
+		on:page={handlePagination}
+		on:amount={handleAmountChange}
+	/>
 </div>
 
 <div class="table-container">
