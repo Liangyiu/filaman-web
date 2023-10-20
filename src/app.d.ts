@@ -14,6 +14,7 @@ interface StockModelInterface {
 	diameter: number;
 	material: string;
 	weight: number;
+	location: string;
 	lastDried: string;
 	openingDate: string;
 	producer: ProducerModelInterface;

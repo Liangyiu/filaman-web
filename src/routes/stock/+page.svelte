@@ -13,6 +13,7 @@
 			diameter: item.diameter,
 			material: item.material,
 			weight: item.weight,
+			location: item.location ? item.location : '',
 			lastDried: new Date(item.lastDried).toLocaleDateString('en-gb', {
 				day: '2-digit',
 				month: '2-digit',
@@ -59,6 +60,12 @@
 			shown: true,
 			inputName: 'slider-weight',
 			stockProperty: 'weight'
+		},
+		{
+			label: 'Location',
+			shown: true,
+			inputName: 'slider-location',
+			stockProperty: 'location'
 		},
 		{
 			label: 'Last dried',
@@ -175,11 +182,12 @@
 					<td class:hidden={!tableHead[2].shown}>{item.diameter}</td>
 					<td class:hidden={!tableHead[3].shown}>{item.material}</td>
 					<td class:hidden={!tableHead[4].shown}>{item.weight}</td>
-					<td class:hidden={!tableHead[5].shown}>{item.lastDried}</td>
-					<td class:hidden={!tableHead[6].shown}>{item.openingDate}</td>
-					<td class:hidden={!tableHead[7].shown}>{item.producer}</td>
-					<td class:hidden={!tableHead[8].shown}>{item.emptyWeight}</td>
-					<td class:hidden={!tableHead[9].shown}>{item.spoolSize}</td>
+					<td class:hidden={!tableHead[5].shown}>{item.location}</td>
+					<td class:hidden={!tableHead[6].shown}>{item.lastDried}</td>
+					<td class:hidden={!tableHead[7].shown}>{item.openingDate}</td>
+					<td class:hidden={!tableHead[8].shown}>{item.producer}</td>
+					<td class:hidden={!tableHead[9].shown}>{item.emptyWeight}</td>
+					<td class:hidden={!tableHead[10].shown}>{item.spoolSize}</td>
 				</tr>
 			{/each}
 		</tbody>
