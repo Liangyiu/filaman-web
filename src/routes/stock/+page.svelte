@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { SlideToggle, type PaginationSettings, Paginator } from '@skeletonlabs/skeleton';
+	import {
+		SlideToggle,
+		type PaginationSettings,
+		Paginator,
+		AccordionItem,
+		Accordion
+	} from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -140,58 +146,69 @@
 	}
 </script>
 
-<div class="options">
-	<div class="toggle-group my3">
-		{#each tableHead as item}
-			<SlideToggle name={item.inputName} bind:checked={item.shown}>{item.label}</SlideToggle>
-		{/each}
+<Accordion class="text-token" rounded="">
+	<AccordionItem>
+		<svelte:fragment slot="summary"><p class="font-bold">⚙️ Column Toggles</p></svelte:fragment>
+		<svelte:fragment slot="content">
+			<!-- prettier-ignore -->
+			<div class="toggle-group py-2 space-x-2 text-center">
+				{#each tableHead as item}
+					<SlideToggle name={item.inputName} size="sm" bind:checked={item.shown}>{item.label}</SlideToggle
+					>
+				{/each}
+			</div>
+		</svelte:fragment>
+	</AccordionItem>
+</Accordion>
+
+<div class="px-5 space-y-3 my-2">
+	<div class="paginator">
+		<Paginator
+			bind:settings={paginationSettings}
+			showFirstLastButtons={false}
+			showPreviousNextButtons={true}
+			on:page={handlePagination}
+			on:amount={handleAmountChange}
+		/>
 	</div>
 
-	<Paginator
-		bind:settings={paginationSettings}
-		showFirstLastButtons={false}
-		showPreviousNextButtons={true}
-		on:page={handlePagination}
-		on:amount={handleAmountChange}
-	/>
-</div>
-
-<div class="table-container">
-	<!-- Native Table Element -->
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				{#each tableHead as item}
-					<th
-						class:hidden={!item.shown}
-						class:sort-by={sortBy.col === item.stockProperty}
-						class:sort-asc={sortBy.ascending && sortBy.col === item.stockProperty}
-						class:sort-desc={!sortBy.ascending && sortBy.col === item.stockProperty}
-						on:click={() => sort(item.stockProperty)}
-					>
-						{item.label}
-					</th>
-				{/each}
-			</tr>
-		</thead>
-		<tbody>
-			{#each stock as item, i}
+	<div class="table-container">
+		<!-- Native Table Element -->
+		<table class="table table-hover">
+			<thead>
 				<tr>
-					<td class:hidden={!tableHead[0].shown}>{item._id}</td>
-					<td class:hidden={!tableHead[1].shown}>{item.color}</td>
-					<td class:hidden={!tableHead[2].shown}>{item.diameter}</td>
-					<td class:hidden={!tableHead[3].shown}>{item.material}</td>
-					<td class:hidden={!tableHead[4].shown}>{item.weight}</td>
-					<td class:hidden={!tableHead[5].shown}>{item.location}</td>
-					<td class:hidden={!tableHead[6].shown}>{item.lastDried}</td>
-					<td class:hidden={!tableHead[7].shown}>{item.openingDate}</td>
-					<td class:hidden={!tableHead[8].shown}>{item.producer}</td>
-					<td class:hidden={!tableHead[9].shown}>{item.emptyWeight}</td>
-					<td class:hidden={!tableHead[10].shown}>{item.spoolSize}</td>
+					{#each tableHead as item}
+						<th
+							class:hidden={!item.shown}
+							class:sort-by={sortBy.col === item.stockProperty}
+							class:sort-asc={sortBy.ascending && sortBy.col === item.stockProperty}
+							class:sort-desc={!sortBy.ascending && sortBy.col === item.stockProperty}
+							on:click={() => sort(item.stockProperty)}
+						>
+							{item.label}
+						</th>
+					{/each}
 				</tr>
-			{/each}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{#each stock as item, i}
+					<tr>
+						<td class:hidden={!tableHead[0].shown}>{item._id}</td>
+						<td class:hidden={!tableHead[1].shown}>{item.color}</td>
+						<td class:hidden={!tableHead[2].shown}>{item.diameter}</td>
+						<td class:hidden={!tableHead[3].shown}>{item.material}</td>
+						<td class:hidden={!tableHead[4].shown}>{item.weight}</td>
+						<td class:hidden={!tableHead[5].shown}>{item.location}</td>
+						<td class:hidden={!tableHead[6].shown}>{item.lastDried}</td>
+						<td class:hidden={!tableHead[7].shown}>{item.openingDate}</td>
+						<td class:hidden={!tableHead[8].shown}>{item.producer}</td>
+						<td class:hidden={!tableHead[9].shown}>{item.emptyWeight}</td>
+						<td class:hidden={!tableHead[10].shown}>{item.spoolSize}</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <style>
