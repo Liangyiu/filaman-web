@@ -39,7 +39,7 @@
 	let tableHead = [
 		{
 			label: 'ID',
-			shown: true,
+			shown: false,
 			inputName: 'slider-id',
 			stockProperty: '_id'
 		},

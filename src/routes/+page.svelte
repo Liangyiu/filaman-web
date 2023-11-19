@@ -7,9 +7,6 @@
 		<!-- Logo -->
 		<img src="/ucb_logo_nobg.png" alt="" />
 		<!-- / -->
-		<div class="flex justify-center space-x-2">
-			<a class="btn variant-filled" href="/stock" rel="noreferrer"> Go to stock </a>
-		</div>
 	</div>
 </div>
 
