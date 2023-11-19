@@ -62,7 +62,7 @@
 			stockProperty: 'material'
 		},
 		{
-			label: 'Weight',
+			label: 'Weight w/o spool',
 			shown: true,
 			inputName: 'slider-weight',
 			stockProperty: 'weight'
@@ -197,7 +197,7 @@
 						<td class:hidden={!tableHead[1].shown}>{item.color}</td>
 						<td class:hidden={!tableHead[2].shown}>{item.diameter}</td>
 						<td class:hidden={!tableHead[3].shown}>{item.material}</td>
-						<td class:hidden={!tableHead[4].shown}>{item.weight}</td>
+						<td class:hidden={!tableHead[4].shown}>{item.weight - item.emptyWeight}</td>
 						<td class:hidden={!tableHead[5].shown}>{item.location}</td>
 						<td class:hidden={!tableHead[6].shown}>{item.lastDried}</td>
 						<td class:hidden={!tableHead[7].shown}>{item.openingDate}</td>
