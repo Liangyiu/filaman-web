@@ -27,9 +27,18 @@ interface ProducerModelInterface {
 	spoolSize: number;
 }
 
-interface ApiResponseObject {
+interface StockApiResponseObject {
 	stockItems: StockModelInterface[];
 	total: number;
 	skip: number;
 	limit: number;
+}
+
+interface EventsModelInterface {
+	_id: string;
+	event_type: string;
+	timestamp: Date;
+	data: Object;
+	oldData: Object;
+	updatedData: Object;
 }

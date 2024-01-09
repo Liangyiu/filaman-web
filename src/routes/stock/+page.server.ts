@@ -13,7 +13,7 @@ export const load = (async ({ url, fetch }) => {
 		}
 
 		const res = await fetch(`/api/stock?limit=${limit}&skip=${skip}`);
-		const data = (await res.json()) as ApiResponseObject;
+		const data = (await res.json()) as StockApiResponseObject;
 
 		return data;
 	}
