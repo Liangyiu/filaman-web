@@ -46,8 +46,8 @@ export function getStartEndOfYear(date: Date) {
 	const year = date.getUTCFullYear();
 
 	return {
-		startOfYear: new Date(year, 11, 31),
-		endOfYear: new Date(year, 0, 1)
+		startOfYear: new Date(year - 1, 11, 31),
+		endOfYear: new Date(year + 1, 0, 0)
 	};
 }
 

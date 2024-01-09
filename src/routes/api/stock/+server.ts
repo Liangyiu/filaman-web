@@ -9,7 +9,12 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	async function getStockItems(limit: number = 10, skip: number = 0) {
 		if (limit > 100) {
-			throw error(400, 'Bad Request');
+			return new Response(
+				JSON.stringify({
+					error: 'Bad Request'
+				}),
+				{ status: 400 }
+			);
 		}
 
 		await dbConnect();
