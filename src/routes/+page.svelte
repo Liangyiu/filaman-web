@@ -84,7 +84,7 @@
 </script>
 
 <div class="container h-full mx-auto justify-center items-center py-4 px-15">
-	<div class="mb-4 w-full text-token grid grid-cols-1 md:grid-cols-3 gap-4 xl:px-40">
+	<div class="mb-4 w-full text-token grid grid-cols-1 md:grid-cols-3 gap-4">
 		<!-- / -->
 		<div class="card max-w-10">
 			<div class="p-4 space-y-4">
