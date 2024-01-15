@@ -73,3 +73,7 @@ export function getStartEndPastTwelveMonths(date: Date) {
 
 	return pastTwelveMonths;
 }
+
+export function getDate24HoursBefore(date: Date) {
+	return new Date(date.getTime() - 24 * 60 * 60 * 1000);
+}

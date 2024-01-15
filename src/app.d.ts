@@ -42,3 +42,17 @@ interface EventsModelInterface {
 	oldData: Object;
 	updatedData: Object;
 }
+
+interface EventApiResponseObject {
+	events: Array;
+	eventType: string;
+	eventCount: number;
+	timestampStart: Date;
+	timestampEnd: Date;
+}
+
+interface StatsApiResponseObject {
+	spoolCount: number;
+	producerCount: number;
+	last24HrEventCount: number;
+}
