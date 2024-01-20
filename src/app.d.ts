@@ -38,13 +38,14 @@ interface EventsModelInterface {
 	_id: string;
 	event_type: string;
 	timestamp: Date;
-	data: Object;
-	oldData: Object;
-	updatedData: Object;
+	data?: Object;
+	oldData?: Object;
+	updatedData?: Object;
+	usedFilament?: number;
 }
 
 interface EventApiResponseObject {
-	events: Array;
+	events: Array<EventsModelInterface>;
 	eventType: string;
 	eventCount: number;
 	timestampStart: Date;
