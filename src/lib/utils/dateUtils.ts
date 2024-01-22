@@ -5,15 +5,18 @@
  * @returns Date
  */
 export function addSubtractDays(days: number, date: Date = new Date()) {
-	date.setDate(date.getUTCDate() + days);
+	const tempDate = new Date(date);
 
-	return date;
+	tempDate.setDate(tempDate.getUTCDate() + days);
+
+	return tempDate;
 }
 
 export function getStartEndOfDay(date: Date) {
+	const tempDate = new Date(date);
 	return {
-		startOfDay: new Date(date.setUTCHours(0, 0, 0, 0)),
-		endOfDay: new Date(date.setUTCHours(23, 59, 59, 999))
+		startOfDay: new Date(tempDate.setUTCHours(0, 0, 0, 0)),
+		endOfDay: new Date(tempDate.setUTCHours(23, 59, 59, 999))
 	};
 }
 
@@ -51,7 +54,7 @@ export function getStartEndOfYear(date: Date) {
 	};
 }
 
-export function getStartEndPastTwelveMonths(date: Date) {
+export function getStartEndPastXMonths(date: Date, months: number) {
 	const initialDate = new Date(date);
 
 	const { startOfMonth, endOfMonth } = getStartEndOfMonth(date);
@@ -62,7 +65,7 @@ export function getStartEndPastTwelveMonths(date: Date) {
 		}
 	];
 
-	for (let i = 1; i < 12; i++) {
+	for (let i = 1; i < months; i++) {
 		let tempDate = new Date(initialDate);
 		tempDate.setDate(15);
 
@@ -76,4 +79,65 @@ export function getStartEndPastTwelveMonths(date: Date) {
 
 export function getDate24HoursBefore(date: Date) {
 	return new Date(date.getTime() - 24 * 60 * 60 * 1000);
+}
+
+/**
+ *
+ * @param date Date
+ * @param days Number
+ * @returns Dates & date string & start/end of days as string of last x days
+ */
+
+export function getLastXDaysDates(date: Date, days: number) {
+	const result = [];
+
+	if (days != 0) {
+		for (let i = 0; i < days; i++) {
+			if (i === 0) {
+				const { endOfDay, startOfDay } = getStartEndOfDay(date);
+
+				result.push({
+					date: date,
+					dateString: date.toLocaleString('en-us', {
+						day: '2-digit',
+						month: 'short',
+						year: 'numeric'
+					}),
+					startOfDay,
+					endOfDay
+				});
+				continue;
+			}
+			const startDate = new Date(date);
+
+			const temp = new Date(startDate.setUTCHours(startDate.getUTCHours() - i * 24));
+			const { endOfDay, startOfDay } = getStartEndOfDay(temp);
+
+			result.push({
+				date: new Date(temp),
+				dateString: temp.toLocaleString('en-us', {
+					day: '2-digit',
+					month: 'short',
+					year: 'numeric'
+				}),
+				startOfDay,
+				endOfDay
+			});
+		}
+	} else {
+		const { endOfDay, startOfDay } = getStartEndOfDay(date);
+
+		result.push({
+			date: date,
+			dateString: date.toLocaleString('en-us', {
+				day: '2-digit',
+				month: 'short',
+				year: 'numeric'
+			}),
+			startOfDay,
+			endOfDay
+		});
+	}
+
+	return result.reverse();
 }

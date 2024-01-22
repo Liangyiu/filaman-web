@@ -5,10 +5,27 @@ export const load = (async ({ fetch }) => {
 		const res = await fetch(`/api/stats`);
 		const data = await res.json();
 
-		return data;
+		return data as StatsApiResponseObject;
+	}
+
+	async function getFilamentUsageEventsLastXDays(days: number) {
+		const res = await fetch('/api/filament-used/last-x-days', {
+			method: 'POST',
+			body: JSON.stringify({
+				days: days
+			})
+		});
+		const data = await res.json();
+
+		return data as FilamentUsedApiResponseObject[];
 	}
 
 	return {
-		stats: (await getStats()) as StatsApiResponseObject
+		stats: await getStats(),
+		dropdownData: [
+			await getFilamentUsageEventsLastXDays(7),
+			await getFilamentUsageEventsLastXDays(30),
+			await getFilamentUsageEventsLastXDays(90)
+		]
 	};
 }) satisfies PageServerLoad;

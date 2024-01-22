@@ -15,14 +15,18 @@ const mongoDbConnection = {
 
 export async function dbConnect() {
 	if (mongoDbConnection.isConnected === 1) {
-		console.log('Database already connected');
+		if (process.env.NODE_ENV === 'development') {
+			console.log('Database already connected');
+		}
 		return;
 	}
 
 	if (mongoose.connections.length > 0) {
 		mongoDbConnection.isConnected = mongoose.connections[0].readyState;
 		if (mongoDbConnection.isConnected === 1) {
-			console.log('using existing database connection');
+			if (process.env.NODE_ENV === 'development') {
+				console.log('using existing database connection');
+			}
 			return;
 		}
 
@@ -31,7 +35,9 @@ export async function dbConnect() {
 
 	await mongoose.connect(MONGO_CON_STRING ?? '');
 	mongoDbConnection.isConnected = 1;
-	console.log('Connected to MongoDB');
+	if (process.env.NODE_ENV === 'development') {
+		console.log('Connected to MongoDB');
+	}
 }
 
 export async function dbDisconnect() {
@@ -40,5 +46,7 @@ export async function dbDisconnect() {
 
 	await mongoose.disconnect();
 	mongoDbConnection.isConnected = 0;
-	console.log('Closed database connection');
+	if (process.env.NODE_ENV === 'development') {
+		console.log('Closed database connection');
+	}
 }

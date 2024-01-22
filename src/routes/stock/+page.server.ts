@@ -19,6 +19,6 @@ export const load = (async ({ url, fetch }) => {
 	}
 
 	return {
-		stockItems: getStockItems(limit, skip)
+		stockItems: await getStockItems(limit, skip)
 	};
 }) satisfies PageServerLoad;

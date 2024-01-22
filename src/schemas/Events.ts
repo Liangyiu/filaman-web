@@ -27,6 +27,9 @@ const EventsSchema = new mongoose.Schema({
 	},
 	updatedData: {
 		type: Object
+	},
+	filamentUsed: {
+		type: Number
 	}
 });
 

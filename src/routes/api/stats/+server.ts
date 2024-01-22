@@ -12,19 +12,29 @@ export const GET: RequestHandler = async ({ fetch }) => {
 		return data.eventCount;
 	}
 
+	async function getFilamentUsageForToday() {
+		const res = await fetch('/api/filament-used/last-x-days', {
+			method: 'POST',
+			body: JSON.stringify({
+				days: 0
+			})
+		});
+		const data = (await res.json()) as FilamentUsedApiResponseObject;
+
+		return data.filamentUsed;
+	}
+
 	async function getStats() {
 		await dbConnect();
 		const spoolCount = await StockModel.countDocuments();
-		const producerCount = await ProducersModel.countDocuments();
-		const eventCount = await getLast24HrEventCount();
+		const filamentUsageToday = await getFilamentUsageForToday();
+		const last24HrEventCount = await getLast24HrEventCount();
 		await dbDisconnect();
 
-		await getLast24HrEventCount();
-
 		const response = {
-			spoolCount,
-			producerCount,
-			last24HrEventCount: eventCount
+			spoolCount: spoolCount,
+			filamentUsageToday: filamentUsageToday,
+			last24HrEventCount: last24HrEventCount
 		};
 
 		return JSON.parse(JSON.stringify(response));

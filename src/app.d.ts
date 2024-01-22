@@ -2,10 +2,10 @@
 // for information about these interfaces
 // and what to do when importing types
 declare namespace App {
-	// interface Locals {}
-	// interface PageData {}
-	// interface Error {}
-	// interface Platform {}
+	interface Locals {}
+	interface PageData {}
+	interface Error {}
+	interface Platform {}
 }
 
 interface StockModelInterface {
@@ -41,7 +41,7 @@ interface EventsModelInterface {
 	data?: Object;
 	oldData?: Object;
 	updatedData?: Object;
-	usedFilament?: number;
+	filamentUsed?: number;
 }
 
 interface EventApiResponseObject {
@@ -54,6 +54,12 @@ interface EventApiResponseObject {
 
 interface StatsApiResponseObject {
 	spoolCount: number;
-	producerCount: number;
+	filamentUsageToday: number;
 	last24HrEventCount: number;
+}
+
+interface FilamentUsedApiResponseObject {
+	date: Date;
+	dateString: string;
+	filamentUsed: number;
 }
