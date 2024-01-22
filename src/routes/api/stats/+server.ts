@@ -27,9 +27,9 @@ export const GET: RequestHandler = async ({ fetch }) => {
 	async function getStats() {
 		await dbConnect();
 		const spoolCount = await StockModel.countDocuments();
+		await dbDisconnect();
 		const filamentUsageToday = await getFilamentUsageForToday();
 		const last24HrEventCount = await getLast24HrEventCount();
-		await dbDisconnect();
 
 		const response = {
 			spoolCount: spoolCount,

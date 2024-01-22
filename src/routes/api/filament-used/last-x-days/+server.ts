@@ -48,13 +48,13 @@ export const POST: RequestHandler = async ({ request }) => {
 				]
 			})) as EventsModelInterface[];
 
-			await dbDisconnect();
-
 			const filamentUsage = events.map((event) => {
 				return event.filamentUsed;
 			});
 
 			const filamentUsed = filamentUsage.reduce((acc, cur) => (acc || 0) + (cur || 0), 0);
+
+			await dbDisconnect();
 
 			return {
 				date: startOfDay,
@@ -69,10 +69,10 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const dates = getLastXDaysDates(new Date(), days);
 
+		await dbConnect();
+
 		const response = await Promise.all(
 			dates.map(async (date) => {
-				await dbConnect();
-
 				const events = (await EventsModel.find({
 					timestamp: {
 						$gte: date.startOfDay,
@@ -88,8 +88,6 @@ export const POST: RequestHandler = async ({ request }) => {
 					]
 				})) as EventsModelInterface[];
 
-				await dbDisconnect();
-
 				const filamentUsage = events.map((event) => {
 					return event.filamentUsed;
 				});
@@ -103,6 +101,8 @@ export const POST: RequestHandler = async ({ request }) => {
 				};
 			})
 		);
+
+		await dbDisconnect();
 
 		return JSON.parse(JSON.stringify(response));
 	}

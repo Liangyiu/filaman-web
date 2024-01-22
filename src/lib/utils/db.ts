@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 import { MONGO_CON_STRING } from '$env/static/private';
 
 /*
