@@ -120,7 +120,7 @@
 			</div>
 		</div>
 	</div>
-
+	<!--
 	<div class="mb-4 w-full rounded-lg shadow bg-surface-800 p-4 md:p-6">
 		<div class="flex justify-between">
 			<div>
@@ -153,7 +153,6 @@
 			class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between"
 		>
 			<div class="flex justify-between items-center pt-5">
-				<!-- Button -->
 				<button
 					id="dropdownDefaultButton"
 					data-dropdown-toggle="lastDaysdropdown"
@@ -178,7 +177,6 @@
 						/>
 					</svg>
 				</button>
-				<!-- Dropdown menu -->
 				<div
 					id="lastDaysdropdown"
 					class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
@@ -248,6 +246,7 @@
 			</div>
 		</div>
 	</div>
+-->
 </div>
 
 <style lang="postcss">
