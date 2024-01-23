@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import { MONGO_CON_STRING } from '$env/static/private';
-
+import { env } from '$env/dynamic/private';
 /*
     0 - disconnected
     1 - connected
@@ -15,7 +14,7 @@ const mongoDbConnection = {
 
 export async function dbConnect() {
 	if (mongoDbConnection.isConnected === 1) {
-		if (process.env.NODE_ENV === 'development') {
+		if (env.NODE_ENV === 'development') {
 			console.log('Database already connected');
 		}
 		return;
@@ -24,7 +23,7 @@ export async function dbConnect() {
 	if (mongoose.connections.length > 0) {
 		mongoDbConnection.isConnected = mongoose.connections[0].readyState;
 		if (mongoDbConnection.isConnected === 1) {
-			if (process.env.NODE_ENV === 'development') {
+			if (env.NODE_ENV === 'development') {
 				console.log('using existing database connection');
 			}
 			return;
@@ -33,20 +32,20 @@ export async function dbConnect() {
 		await mongoose.disconnect();
 	}
 
-	await mongoose.connect(MONGO_CON_STRING ?? '');
+	await mongoose.connect(env.MONGO_CON_STRING ?? '');
 	mongoDbConnection.isConnected = 1;
-	if (process.env.NODE_ENV === 'development') {
+	if (env.NODE_ENV === 'development') {
 		console.log('Connected to MongoDB');
 	}
 }
 
 export async function dbDisconnect() {
-	if (process.env.NODE_ENV === 'development') return;
+	if (env.NODE_ENV === 'development') return;
 	if (mongoDbConnection.isConnected === 0) return;
 
 	await mongoose.disconnect();
 	mongoDbConnection.isConnected = 0;
-	if (process.env.NODE_ENV === 'development') {
+	if (env.NODE_ENV === 'development') {
 		console.log('Closed database connection');
 	}
 }
