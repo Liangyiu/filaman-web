@@ -1,5 +1,3 @@
-# taken from https://gist.github.com/aradalvand/04b2cad14b00e5ffe8ec96a3afbb34fb
-
 FROM node:18-alpine AS builder
 RUN npm install -g pnpm
 WORKDIR /app
