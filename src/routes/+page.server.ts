@@ -24,8 +24,8 @@ export const load = (async ({ fetch }) => {
 		stats: await getStats(),
 		dropdownData: [
 			await getFilamentUsageEventsLastXDays(7),
-			await getFilamentUsageEventsLastXDays(9),
-			await getFilamentUsageEventsLastXDays(14)
+			await getFilamentUsageEventsLastXDays(30),
+			await getFilamentUsageEventsLastXDays(90)
 		]
 	};
 }) satisfies PageServerLoad;
