@@ -3,9 +3,13 @@ import { StockModel } from '../../../schemas/Stock';
 import { dbConnect, dbDisconnect } from '$lib/utils/db';
 import { error, json } from '@sveltejs/kit';
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, setHeaders }) => {
 	const limit = Number(url.searchParams.get('limit')) || 10;
 	const skip = Number(url.searchParams.get('skip')) || 0;
+
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
 
 	async function getStockItems(limit: number = 10, skip: number = 0) {
 		if (limit > 100) {

@@ -5,7 +5,11 @@ import { getDate24HoursBefore, getLastXDaysDates, getStartEndOfDay } from '$lib/
 import { dbConnect, dbDisconnect } from '$lib/utils/db';
 import { EventsModel } from '../../../../schemas/Events';
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
+
 	let { days } = await request.json();
 
 	async function getFilamentUsedLastXDays(days: number) {

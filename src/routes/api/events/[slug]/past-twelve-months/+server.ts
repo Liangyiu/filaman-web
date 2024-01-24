@@ -5,7 +5,11 @@ import { getStartEndPastXMonths, isDateValid } from '$lib/utils/dateUtils';
 import { dbConnect, dbDisconnect } from '$lib/utils/db';
 import { EventsModel } from '../../../../../schemas/Events';
 
-export const POST: RequestHandler = async ({ request, params }) => {
+export const POST: RequestHandler = async ({ request, params, setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
+
 	let { date } = await request.json();
 	const { slug } = params;
 
@@ -29,7 +33,7 @@ export const POST: RequestHandler = async ({ request, params }) => {
 
 	date = new Date(date);
 
-	const dates = getStartEndPastXMonths(date);
+	const dates = getStartEndPastXMonths(date, 12);
 
 	async function getEventsPastTwelveMonths(date: Date, eventType: String) {
 		let events = [];

@@ -3,7 +3,11 @@ import { dbConnect, dbDisconnect } from '$lib/utils/db';
 import { error, json } from '@sveltejs/kit';
 import { ProducersModel } from '../../../../schemas/Producers';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
+
 	async function getTotalProducersCount() {
 		await dbConnect();
 		const count = await ProducersModel.countDocuments();

@@ -5,7 +5,11 @@ import { getDate24HoursBefore } from '$lib/utils/dateUtils';
 import { dbConnect, dbDisconnect } from '$lib/utils/db';
 import { EventsModel } from '../../../../../schemas/Events';
 
-export const GET: RequestHandler = async ({ request, params }) => {
+export const GET: RequestHandler = async ({ params, setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
+
 	const { slug } = params;
 
 	if (!eventTypes.includes(slug)) {

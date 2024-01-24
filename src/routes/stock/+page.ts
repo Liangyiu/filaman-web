@@ -1,11 +1,13 @@
-import { dbConnect, dbDisconnect } from '$lib/utils/db';
 import { error } from '@sveltejs/kit';
-import { StockModel } from '../../schemas/Stock';
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 
-export const load = (async ({ url, fetch }) => {
+export const load = (async ({ url, fetch, setHeaders }) => {
 	const limit = Number(url.searchParams.get('limit')) || 10;
 	const skip = Number(url.searchParams.get('skip')) || 0;
+
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
 
 	async function getStockItems(limit: number, skip: number) {
 		if (limit > 100) {
@@ -21,4 +23,4 @@ export const load = (async ({ url, fetch }) => {
 	return {
 		stockItems: await getStockItems(limit, skip)
 	};
-}) satisfies PageServerLoad;
+}) satisfies PageLoad;

@@ -1,4 +1,4 @@
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 
 export const load = (async ({ fetch }) => {
 	async function getStats() {
@@ -28,4 +28,4 @@ export const load = (async ({ fetch }) => {
 			await getFilamentUsageEventsLastXDays(90)
 		]
 	};
-}) satisfies PageServerLoad;
+}) satisfies PageLoad;

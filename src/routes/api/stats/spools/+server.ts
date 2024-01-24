@@ -3,7 +3,11 @@ import { dbConnect, dbDisconnect } from '$lib/utils/db';
 import { error, json } from '@sveltejs/kit';
 import { StockModel } from '../../../../schemas/Stock';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
+
 	async function getTotalSpoolCount() {
 		await dbConnect();
 		const count = await StockModel.countDocuments();

@@ -4,7 +4,11 @@ import { ProducersModel } from '../../../schemas/Producers';
 import { StockModel } from '../../../schemas/Stock';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ fetch }) => {
+export const GET: RequestHandler = async ({ fetch, setHeaders }) => {
+	setHeaders({
+		'cache-control': 'max-age=300'
+	});
+
 	async function getLast24HrEventCount() {
 		const res = await fetch('/api/events/all/last-24-hrs');
 		const data = (await res.json()) as EventApiResponseObject;
