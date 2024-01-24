@@ -20,5 +20,5 @@ const ProducersSchema = new mongoose.Schema({
 const collectionName = 'producers';
 
 export const ProducersModel =
-	mongoose.models.ProducersModel ??
+	mongoose.models.ProducersModel ||
 	mongoose.model<ProducerModelInterface>(collectionName, ProducersSchema, collectionName);

@@ -29,5 +29,5 @@ const StockSchema = new mongoose.Schema({
 const collectionName = 'stock';
 
 export const StockModel =
-	mongoose.models.StockSchema ??
+	mongoose.models.StockSchema ||
 	mongoose.model<StockModelInterface>(collectionName, StockSchema, collectionName);

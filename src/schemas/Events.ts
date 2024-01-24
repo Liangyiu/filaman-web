@@ -36,5 +36,5 @@ const EventsSchema = new mongoose.Schema({
 const collectionName = 'events';
 
 export const EventsModel =
-	mongoose.models.EventsModel ??
+	mongoose.models.EventsModel ||
 	mongoose.model<EventsModelInterface>(collectionName, EventsSchema, collectionName);
