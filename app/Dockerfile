@@ -11,6 +11,5 @@ WORKDIR /app
 COPY --from=builder /app/build build/
 COPY --from=builder /app/node_modules node_modules/
 COPY package.json pnpm-lock.yaml .
-ENV PORT=3000
-EXPOSE $PORT
+EXPOSE 3000
 CMD [ "node", "build" ]
