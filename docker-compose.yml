@@ -1,21 +1,22 @@
-version: "3"
+version: '3'
 
 services:
-  app:
-    build: app
-    environment:
-      - MONGO_CON_STRING=""
-      - CACHE_MAX_AGE=300
-      - REDIS_URI=redis://db:6379
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-  
-  db:
-    build: db
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./data:/data
-    
+    app:
+        build: app
+        environment:
+            - MONGO_CON_STRING=""
+            - CACHE_MAX_AGE=300
+            - REDIS_URI=redis://db:6379
+        ports:
+            - '3000:3000'
+        depends_on:
+            - db
+        restart: unless-stopped
+
+    db:
+        build: db
+        ports:
+            - '6379:6379'
+        volumes:
+            - ./data:/data
+        restart: unless-stopped
